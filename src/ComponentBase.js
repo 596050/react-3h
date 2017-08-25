@@ -1,7 +1,7 @@
 import DOMManager from './DOMManager';
-import { generateUID } from './utils';
+import generateUID from './utils';
 
-export class ComponentBase {
+export default class ComponentBase {
   constructor(props = {}) {
     this.setProps(props);
     this.root = null;
@@ -9,13 +9,13 @@ export class ComponentBase {
   }
 
   setProps(props) {
-    this.props = Object.freeze(Object.assign({},props));
+    this.props = Object.freeze(Object.assign({}, props));
   }
 
   injectID(html) {
     let foundFirstTag = false;
     let spaceIndex = -1;
-    for (let i = 0; i < html.length; i++ ) {
+    for (let i = 0; i < html.length; i++) {
       const ch = html.charAt(i);
       if (foundFirstTag) {
         if (ch === ' ' || ch === '>') {
@@ -26,7 +26,7 @@ export class ComponentBase {
         foundFirstTag = true;
       }
     }
-    return `${html.substring(0,spaceIndex)} data-id="${this.id}"${html.substring(spaceIndex)}`;
+    return `${html.substring(0, spaceIndex)} data-id="${this.id}"${html.substring(spaceIndex)}`;
   }
 
   renderComponent(isSnapshot = false) {
@@ -47,14 +47,14 @@ export class ComponentBase {
     return htmlWithUniqueId;
   }
 
-  _componentWasMounted() {
+  baseComponentWasMounted() {
     this.root = document.querySelector(`[data-id="${this.id}"]`);
     if (typeof this.componentWasMounted === 'function') {
       this.componentWasMounted();
     }
   }
 
-  _componentWasUnmounted() {
+  baseComponentWasUnmounted() {
     this.root = null;
     if (typeof this.componentWasUnmounted === 'function') {
       this.componentWasUnmounted();
@@ -63,9 +63,9 @@ export class ComponentBase {
 
   setState(obj) {
     if (!this.state) {
-      this.state = Object.freeze(Object.assign({},obj));
+      this.state = Object.freeze(Object.assign({}, obj));
     } else {
-      this.state = Object.freeze(Object.assign({},this.state,obj));
+      this.state = Object.freeze(Object.assign({}, this.state, obj));
     }
     this.forceRender();
   }

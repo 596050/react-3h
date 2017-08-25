@@ -5,11 +5,11 @@ class DOMManager {
     this.renderedCallbacks = [];
   }
 
-  renderApp(rootSelector, component, props) {
-    if (!component) {
+  renderApp(rootSelector, Component, props) {
+    if (!Component) {
       throw new Error('component must be provided');
     }
-    if (!component.isComponent) {
+    if (!Component.isComponent) {
       throw new Error('main component must be a component extending Component');
     }
     const element = document.querySelector(rootSelector);
@@ -17,12 +17,12 @@ class DOMManager {
       throw new Error('Root element was not found');
     }
     this.root = element;
-    this.app = new component(props);
+    this.app = new Component(props);
     this.refresh();
   }
 
   callAfterRender() {
-    this.mountedComponents.forEach(instance => instance._componentWasMounted());
+    this.mountedComponents.forEach(instance => instance.baseComponentWasMounted());
     this.mountedComponents = [];
 
     this.renderedCallbacks.forEach(fn => fn());
@@ -42,11 +42,11 @@ class DOMManager {
   }
 
   removeUnmountedComponents() {
-    Object.keys(this.components).forEach(key => {
+    Object.keys(this.components).forEach((key) => {
       const component = this.components[key];
       if (this.isDetached(component.getRootElement())) {
         delete this.components[key];
-        component._componentWasUnmounted();
+        component.baseComponentWasUnmounted();
       }
     });
   }
@@ -60,29 +60,29 @@ class DOMManager {
     return this.renderComponent(component, 'snapshot', props, children, true);
   }
 
-  renderComponent(component, key, props = {}, children = '', isSnapshot = false) {
-    if (!component) {
+  renderComponent(Component, key, props = {}, children = '', isSnapshot = false) {
+    if (!Component) {
       throw new Error('Component must be provided');
     }
     if (!key) {
-      throw new Error('a unique key must be provided for the component ', component);
+      throw new Error('a unique key must be provided for the component ', Component);
     }
     const propsAndChildren = Object.assign({}, props, { children });
     let html = '';
 
-    if (component.isComponent) {
+    if (Component.isComponent) {
       let instance = this.components[key];
       if (!instance) {
-        instance = new component();
+        instance = new Component();
         if (!isSnapshot) {
           this.components[key] = instance;
-          this.mountedComponents.push(instance)
+          this.mountedComponents.push(instance);
         }
       }
       instance.setProps(propsAndChildren);
       html = instance.renderComponent(isSnapshot);
     } else {
-      html = component(propsAndChildren);
+      html = Component(propsAndChildren);
     }
     return html || '';
   }
