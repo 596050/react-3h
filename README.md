@@ -3,8 +3,8 @@ A simple implementation of React which I built in 3 hours for a job interview.
  
 ## Motivation  
  As part of a job interview I was requested to implement a simple web app that displays real-time information in a table. 
- I was requested not to use any frameworks and use only plain vanilla Javascript. TO make it a bit more interesting, 
- I decided to implement a very simple version of React. It took me 2 hours to develop it, hence the name. 
+ I was requested not to use any frameworks and use only plain vanilla Javascript. To make it a bit more interesting, 
+ I decided to implement a very simple version of React. It took me 3 hours to develop it, hence the name. 
  
  I was so happy with the result that I decided to open-source it. 
  
