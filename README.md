@@ -3,8 +3,8 @@ A simple implementation of React which I built in 3 hours for a job interview.
  
 ## Motivation  
  As part of a job interview I was requested to implement a simple web app that displays real-time information in a table. 
- I was requested not to use any frameworks and use only plain vanilla Javascript. TO make it a bit more interesting, 
- I decided to implement a very simple version of React. It took me 2 hours to develop it, hence the name. 
+ I was requested not to use any frameworks and use only plain vanilla Javascript. To make it a bit more interesting, 
+ I decided to implement a very simple version of React. It took me 3 hours to develop it, hence the name. 
  
  I was so happy with the result that I decided to open-source it. 
  
@@ -64,7 +64,7 @@ Like in react, a component can wither be a stateless function or a stateful clas
 need to do is to define a function that gets `props` and return html string. 
 
 Here is an example:
-```
+```javascript
 // Title.js
 export default ({ children, className }) => `<h1 class="${className}">${children}</h1>`;
 ```
@@ -73,7 +73,7 @@ In case you need a stateful component you need to derive from the `Component` cl
 which return an html string. 
 
 First you need to extend `Component`:
-```
+```javascript
 import { Component } from 'react-3h';
 
 class Loading extends Component {}
@@ -94,7 +94,7 @@ store the reference to the DOM element since it is changed after each render**
 Lets see an example of a simple app
 
 **app.js**
-```
+```javascript
 import { Component, renderComponent, renderApp, setAppProps } from 'react-3h';
 import Loading from './components/Loading';
 import Title from  './components/Title';
@@ -144,7 +144,7 @@ fetch('/data').then(response => response.json).then(data => {
 
 
 **Loading.js**
-```
+```javascript
 import { Component } from 'react-3h';
 
 class Loading extends Component {
@@ -178,6 +178,6 @@ export default Loading;
 ```
 
 **Title.js**
-```
+```javascript
 export default ({ children, className }) => `<h1 class="${className}">${children}</h1>`;
 ```
